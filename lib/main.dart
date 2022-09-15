@@ -1,14 +1,18 @@
 import 'package:admconnect/bindings/home/home_binding.dart';
 import 'package:admconnect/bindings/login/login_binding.dart';
+import 'package:admconnect/firebase_options.dart';
 import 'package:admconnect/pages/home/home_page.dart';
 import 'package:admconnect/pages/login/login_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'bindings/register/register_binding.dart';
 import 'pages/register/register_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
