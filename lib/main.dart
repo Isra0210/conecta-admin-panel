@@ -3,12 +3,10 @@ import 'package:admconnect/bindings/login/login_binding.dart';
 import 'package:admconnect/firebase_options.dart';
 import 'package:admconnect/pages/home/home_page.dart';
 import 'package:admconnect/pages/login/login_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'bindings/register/register_binding.dart';
-import 'pages/register/register_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +17,20 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
+  void handleUser(Stream<User?> stream) {
+    stream.listen(
+      (user) async {
+        if (user == null) {
+          Get.offAllNamed(LoginPage.route);
+        } else {
+          if (Get.rawRoute!.settings.name != HomePage.route) {
+            Get.offAllNamed(HomePage.route);
+          }
+        }
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -26,6 +38,9 @@ class MyApp extends StatelessWidget {
       title: 'Admin Panel Connect',
       theme: ThemeData(primarySwatch: Colors.blue),
       initialRoute: LoginPage.route,
+      onInit: () {
+        handleUser(FirebaseAuth.instance.authStateChanges());
+      },
       getPages: [
         GetPage(
           name: HomePage.route,
@@ -36,11 +51,6 @@ class MyApp extends StatelessWidget {
           name: LoginPage.route,
           page: () => const LoginPage(),
           binding: LoginBinding(),
-        ),
-        GetPage(
-          name: RegisterPage.route,
-          page: () => const RegisterPage(),
-          binding: RegisterBinding(),
         ),
       ],
     );
