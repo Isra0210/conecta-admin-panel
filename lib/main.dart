@@ -34,11 +34,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      initialBinding: LoginBinding(),
       debugShowCheckedModeBanner: false,
       title: 'Admin Panel Connect',
       theme: ThemeData(primarySwatch: Colors.blue),
       initialRoute: LoginPage.route,
       onInit: () {
+        handleUser(FirebaseAuth.instance.authStateChanges());
+      },
+      onReady: () {
         handleUser(FirebaseAuth.instance.authStateChanges());
       },
       getPages: [

@@ -1,3 +1,4 @@
+import 'package:admconnect/pages/new_research/utils/get_snack_bar.dart';
 import 'package:flutter/material.dart';
 
 class LoginAsComponent extends StatelessWidget {
@@ -10,33 +11,43 @@ class LoginAsComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 50,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black12,
-            spreadRadius: 1,
-            blurRadius: 2,
-          )
-        ],
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: Center(
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(35),
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.black12,
-                spreadRadius: 1,
-                blurRadius: 1,
-              )
-            ],
+    return TextButton(
+      onPressed: () {
+        getSnackBar(
+          context,
+          title: 'Ops!',
+          message: 'Função não implementada!',
+        );
+      },
+      child: Container(
+        height: 50,
+        decoration: BoxDecoration(
+              color: Colors.white,
+          
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black12,
+              spreadRadius: 1,
+              blurRadius: 2,
+            )
+          ],
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Center(
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(35),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black12,
+                  spreadRadius: 1,
+                  blurRadius: 1,
+                )
+              ],
+            ),
+            child: Image.asset(imagePath, width: 35),
           ),
-          child: Image.asset(imagePath, width: 35),
         ),
       ),
     );

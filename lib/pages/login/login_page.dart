@@ -1,6 +1,7 @@
 import 'package:admconnect/pages/login/components/button_component.dart';
 import 'package:admconnect/pages/login/components/login_as_component.dart';
 import 'package:admconnect/pages/login/login_presenter.dart';
+import 'package:admconnect/pages/new_research/utils/get_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -32,6 +33,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void dispose() {
     nameController.dispose();
+    emailController.dispose();
     passwordController.dispose();
     super.dispose();
   }
@@ -89,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                           )
                         : const SizedBox(),
                     const Text(
-                      'Conecta +PG',
+                      'Integra +PG',
                       style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
@@ -108,22 +110,36 @@ class _LoginPageState extends State<LoginPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            presenter.isToRegister ?  Padding(
-                              padding: const EdgeInsets.only(bottom: 20.0),
-                              child: TextFormFieldComponent(
-                                labelText: 'Nome completo',
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return "Campo obrigatório!";
-                                  }
-                                  if (value.length < 5) {
-                                    return "Mínimo 5 caractere!";
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ) : const SizedBox(),
+                            presenter.isToRegister
+                                ? Padding(
+                                    padding: const EdgeInsets.only(
+                                      bottom: 20.0,
+                                    ),
+                                    child: TextFormFieldComponent(
+                                      onChanged: (value) {
+                                        nameController.text = value;
+                                      },
+                                      presenter: presenter,
+                                      obscureText: false,
+                                      labelText: 'Nome completo',
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          return "Campo obrigatório!";
+                                        }
+                                        if (value.length < 5) {
+                                          return "Mínimo 5 caractere!";
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                  )
+                                : const SizedBox(),
                             TextFormFieldComponent(
+                              onChanged: (value) {
+                                emailController.text = value;
+                              },
+                              presenter: presenter,
+                              obscureText: false,
                               labelText: 'Email',
                               validator: (value) {
                                 if (value!.isEmpty) {
@@ -139,6 +155,11 @@ class _LoginPageState extends State<LoginPage> {
                               padding:
                                   const EdgeInsets.symmetric(vertical: 20.0),
                               child: TextFormFieldComponent(
+                                onChanged: (value) {
+                                  passwordController.text = value;
+                                },
+                                presenter: presenter,
+                                obscureText: true,
                                 labelText: 'Senha',
                                 validator: (value) {
                                   if (value!.isEmpty) {
@@ -153,31 +174,71 @@ class _LoginPageState extends State<LoginPage> {
                                 },
                               ),
                             ),
-                            !presenter.isToRegister
-                                ? ButtonComponent(
-                                    buttonText: "Entrar",
-                                    onPressed: () {
-                                      if (formKey.currentState!.validate()) {
-                                        print('isValid');
-                                      }
-                                    },
+                            presenter.loading
+                                ? const Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 20.0,
+                                    ),
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                        valueColor: AlwaysStoppedAnimation(
+                                          Color(0XFF1e224c),
+                                        ),
+                                      ),
+                                    ),
                                   )
-                                : const SizedBox(),
-                            const SizedBox(height: 16),
-                            ButtonComponent(
-                              buttonText: "Registrar",
-                              isOutilinedButton: false,
-                              onPressed: () {
-                                if (presenter.isToRegister) {
-                                  if (formKey.currentState!.validate()) {
-                                    print('isValid');
-                                  }
-                                }
-                                presenter.isToRegister = true;
-                              },
-                            ),
+                                : Column(
+                                    children: [
+                                      !presenter.isToRegister
+                                          ? ButtonComponent(
+                                              buttonText: "Entrar",
+                                              onPressed: () async {
+                                                if (formKey.currentState!
+                                                    .validate()) {
+                                                  await presenter.signIn(
+                                                    email: emailController.text,
+                                                    password:
+                                                        passwordController.text,
+                                                    showSnackBar: (error) =>
+                                                        getSnackBar(
+                                                      context,
+                                                      title: "Ops!",
+                                                      message: error,
+                                                    ),
+                                                  );
+                                                }
+                                              },
+                                            )
+                                          : const SizedBox(),
+                                      const SizedBox(height: 16),
+                                      ButtonComponent(
+                                        buttonText: "Registrar",
+                                        isOutilinedButton: false,
+                                        onPressed: () async {
+                                          if (presenter.isToRegister) {
+                                            if (formKey.currentState!
+                                                .validate()) {
+                                              await presenter.register(
+                                                name: nameController.text,
+                                                email: emailController.text,
+                                                password:
+                                                    passwordController.text,
+                                                showSnackBar: (error) =>
+                                                    getSnackBar(
+                                                  context,
+                                                  title: "Ops!",
+                                                  message: error,
+                                                ),
+                                              );
+                                            }
+                                          }
+                                          presenter.isToRegister = true;
+                                        },
+                                      ),
+                                    ],
+                                  ),
                             Padding(
-                              padding: const EdgeInsets.only(top: 30 ),
+                              padding: const EdgeInsets.only(top: 30),
                               child: Row(
                                 children: [
                                   Expanded(
@@ -187,7 +248,8 @@ class _LoginPageState extends State<LoginPage> {
                                     ),
                                   ),
                                   const Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 20),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20),
                                     child: Text("Continue como"),
                                   ),
                                   Expanded(

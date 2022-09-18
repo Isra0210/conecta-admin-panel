@@ -1,5 +1,6 @@
 import 'package:admconnect/pages/home/components/side_bar_component.dart';
 import 'package:admconnect/pages/home/home_presenter.dart';
+import 'package:admconnect/pages/login/login_presenter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,6 +14,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final IHomePresenter presenter = Get.find<IHomePresenter>();
+  final ILoginPresenter loginPresenter = Get.find<ILoginPresenter>();
+  
   @override
   Widget build(BuildContext context) {
     final List<String> buttonNames = [
@@ -27,6 +30,18 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
         backgroundColor: const Color(0XFF1e224c),
         leadingWidth: 120,
+        actions: [
+          Tooltip(
+            message: 'Sair',
+            child: IconButton(
+              onPressed: () => loginPresenter.signOut(),
+              icon: const Icon(
+                Icons.logout,
+                color: Colors.white,
+              ),
+            ),
+          )
+        ],
         leading: Center(
           child: Container(
             alignment: Alignment.center,

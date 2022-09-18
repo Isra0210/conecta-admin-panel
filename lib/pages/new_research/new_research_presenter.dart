@@ -6,4 +6,6 @@ abstract class INewResearchPresenter {
   
   String get titleToComponent;
   set titleToComponent(String value);
+  
+  Future<void> uploadForms();
 }
