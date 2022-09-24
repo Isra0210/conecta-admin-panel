@@ -10,6 +10,7 @@ Future<void> getSnackBar(
   Get.snackbar(
     title,
     message,
+    duration: const Duration(seconds: 2),
     snackPosition: SnackPosition.BOTTOM,
     backgroundColor: backgroundColor ?? Colors.deepOrangeAccent.shade400,
     margin: EdgeInsets.only(

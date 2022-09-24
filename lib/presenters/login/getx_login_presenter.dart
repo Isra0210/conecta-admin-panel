@@ -1,3 +1,4 @@
+import 'package:admconnect/mixins/loading_mixin.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
@@ -5,13 +6,7 @@ import 'package:get/get.dart';
 import '../../pages/home/home_page.dart';
 import '../../pages/login/login_presenter.dart';
 
-class GetXLoginPresenter extends GetxController implements ILoginPresenter {
-  final RxBool _loading = false.obs;
-  @override
-  bool get loading => _loading.value;
-  @override
-  set loading(bool value) => _loading.value = value;
-
+class GetXLoginPresenter extends GetxController with LoadingMixin implements ILoginPresenter {
   final RxBool _isToRegister = false.obs;
   @override
   bool get isToRegister => _isToRegister.value;
@@ -30,7 +25,7 @@ class GetXLoginPresenter extends GetxController implements ILoginPresenter {
       required String password,
       required Function(String) showSnackBar}) async {
     try {
-      _loading.value = true;
+      loading = true;
       //ignore: unused_local_variable
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -47,7 +42,7 @@ class GetXLoginPresenter extends GetxController implements ILoginPresenter {
         showSnackBar("E-mail/senha incorreta!");
       }
     } finally {
-      _loading.value = false;
+      loading = false;
     }
   }
 
@@ -79,7 +74,7 @@ class GetXLoginPresenter extends GetxController implements ILoginPresenter {
     required Function(String) showSnackBar,
   }) async {
     try {
-      _loading.value = true;
+      loading = true;
       UserCredential userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
@@ -97,7 +92,7 @@ class GetXLoginPresenter extends GetxController implements ILoginPresenter {
     } catch (e) {
       showSnackBar(e.toString());
     } finally {
-      _loading.value = false;
+      loading = false;
     }
   }
 

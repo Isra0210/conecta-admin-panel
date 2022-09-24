@@ -7,15 +7,15 @@ class UserViewModel implements Equatable {
   final String name;
 
   factory UserViewModel.fromMap(Map<String, dynamic> map) {
-    return UserViewModel(id: map['id'].toString(), name: map['name']);
+    return UserViewModel(id: map['uid'].toString(), name: map['name']);
   }
 
   Map<String, dynamic> toMap() {
-    return {'id': id, 'name': name};
+    return {'uid': id, 'name': name};
   }
 
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [id, name];
 
   @override
   bool? get stringify => true;

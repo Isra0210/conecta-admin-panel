@@ -1,7 +1,6 @@
-abstract class ILoginPresenter {
-  bool get loading;
-  set loading(bool value);
+import 'package:admconnect/mixins/loading_mixin.dart';
 
+abstract class ILoginPresenter implements LoadingMixin {
   bool get isToRegister;
   set isToRegister(bool value);
 
