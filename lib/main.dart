@@ -1,9 +1,9 @@
-import 'package:admconnect/bindings/home/home_binding.dart';
-import 'package:admconnect/bindings/login/login_binding.dart';
+import 'package:admconnect/admin-system/bindings/home/home_binding.dart';
+import 'package:admconnect/admin-system/bindings/login/login_binding.dart';
 import 'package:admconnect/firebase_options.dart';
-import 'package:admconnect/pages/home/home_page.dart';
-import 'package:admconnect/pages/login/login_page.dart';
-import 'package:admconnect/pages/report_details/report_details_page.dart';
+import 'package:admconnect/admin-system/pages/home/home_page.dart';
+import 'package:admconnect/admin-system/pages/login/login_page.dart';
+import 'package:admconnect/admin-system/pages/report_details/report_details_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
