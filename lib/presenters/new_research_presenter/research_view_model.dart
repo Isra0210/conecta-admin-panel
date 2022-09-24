@@ -22,6 +22,14 @@ class ResearchViewModel extends Equatable {
     );
   }
 
+  Map<String, dynamic> toMap() {
+    return {
+      'title': title,
+      'type': type,
+      'options': options,
+    };
+  }
+
   @override
   String toString() {
     return "title: $title type: $type options: $options";

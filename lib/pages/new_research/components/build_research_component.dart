@@ -170,60 +170,61 @@ class _BuildResearchComponentState extends State<BuildResearchComponent> {
               ],
             ),
             Align(
-              alignment: Alignment.centerLeft,
-              child: isMultipleChoose
-                  ? Container(
-                      margin: const EdgeInsets.fromLTRB(30, 16, 0, 16),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: widget.researchViewModel.options
-                            .map(
-                              (option) => Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.radio_button_off,
-                                        size: 14,
-                                      ),
-                                      Container(
-                                        margin:
-                                            const EdgeInsets.only(left: 20),
-                                        child: Text(
-                                          option,
-                                          style: const TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  IconButton(
-                                    onPressed: () {
-                                      final index = widget
-                                          .researchViewModel.options
-                                          .indexOf(option);
-                                      widget.researchViewModel.options
-                                          .removeAt(index);
-                                    },
-                                    icon: const Icon(
-                                      Icons.delete,
-                                      size: 16,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            )
-                            .toList(),
-                      ),
-                    )
-                  : const SizedBox(),
-            ),
+               alignment: Alignment.centerLeft,
+               child: isMultipleChoose
+                   ? Container(
+                       margin: const EdgeInsets.fromLTRB(30, 16, 0, 16),
+                       child: Column(
+                         mainAxisAlignment: MainAxisAlignment.start,
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         children: widget.researchViewModel.options
+                             .map(
+                               (option) => Row(
+                                 mainAxisAlignment:
+                                     MainAxisAlignment.spaceBetween,
+                                 children: [
+                                   Row(
+                                     children: [
+                                       const Icon(
+                                         Icons.radio_button_off,
+                                         size: 14,
+                                       ),
+                                       Container(
+                                         margin: const EdgeInsets.only(left: 20),
+                                         child: Text(
+                                           option,
+                                           style: const TextStyle(
+                                             color: Colors.black,
+                                             fontSize: 14,
+                                             fontWeight: FontWeight.w500,
+                                           ),
+                                         ),
+                                       ),
+                                     ],
+                                   ),
+                                   IconButton(
+                                     onPressed: () {
+                                       setState(() {
+                                         final index = widget
+                                             .researchViewModel.options
+                                             .indexOf(option);
+                                         widget.researchViewModel.options
+                                             .removeAt(index);
+                                       });
+                                     },
+                                     icon: const Icon(
+                                       Icons.delete,
+                                       size: 16,
+                                     ),
+                                   )
+                                 ],
+                               ),
+                             )
+                             .toList(),
+                       ),
+                     )
+                   : const SizedBox(),
+             ),
           ],
         ),
       );

@@ -1,3 +1,4 @@
+import 'package:admconnect/presenters/new_research_presenter/research_enum.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
@@ -34,7 +35,10 @@ class GetXNewResearchPresenter extends GetxController
       'createdAt': FieldValue.serverTimestamp(),
       'createdBy': FirebaseAuth.instance.currentUser!.uid,
       'isActive': true,
-      'questions': {},
+      'status': ResearchStatusEnum.analyzing.name,
+      'questions': [
+        ..._filedsToResearchList.map((question) => question.toMap()),
+      ],
       'answers': [],
       'users': [],
     });
@@ -44,6 +48,7 @@ class GetXNewResearchPresenter extends GetxController
         'createdAt': FieldValue.serverTimestamp(),
         'createdBy': FirebaseAuth.instance.currentUser!.uid,
         'isActive': true,
+        'status': ResearchStatusEnum.analyzing.name,
         'questions': {},
         'answers': [],
         'users': [],

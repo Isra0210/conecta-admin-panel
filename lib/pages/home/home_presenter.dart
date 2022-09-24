@@ -1,3 +1,4 @@
+import 'package:admconnect/presenters/analysis_research/analysis_research_view_model.dart';
 import 'package:flutter/material.dart';
 
 import '../../presenters/home/models/button_side_bar_view_model.dart';
@@ -11,6 +12,7 @@ abstract class IHomePresenter {
 
   int get currentSideBarIndex;
   set currentSideBarIndex(int value);
-  
+
   Stream<List<UserViewModel>> users();
+  Stream<List<AnalysisResearchViewModel>> researches();
 }

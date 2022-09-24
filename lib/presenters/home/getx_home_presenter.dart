@@ -1,11 +1,15 @@
-import 'package:admconnect/pages/home/components/unimplemented_page.dart';
+import 'package:admconnect/presenters/analysis_research/analysis_research_view_model.dart';
+import 'package:admconnect/presenters/new_research_presenter/research_enum.dart';
 import 'package:admconnect/presenters/users/user_view_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../pages/analysis_research/analysis_research_page.dart';
 import '../../pages/home/home_presenter.dart';
 import '../../pages/new_research/new_research_page.dart';
+import '../../pages/report/report_page.dart';
 import '../../pages/users/users_page.dart';
 import 'models/button_side_bar_view_model.dart';
 
@@ -25,16 +29,12 @@ class GetXHomePresenter extends GetxController implements IHomePresenter {
         ButtonSideBarViewModel(
           title: "Pesquisas em análise",
           icon: Icons.content_paste_search,
-          page: const UnimplementedPage(
-            pageName: 'Pesquisas em análise',
-          ),
+          page: const AnalysisResearch(),
         ),
         ButtonSideBarViewModel(
           title: "Relatórios",
           icon: Icons.bar_chart_outlined,
-          page: const UnimplementedPage(
-            pageName: 'Relatórios',
-          ),
+          page: const ReportPage(),
         ),
         ButtonSideBarViewModel(
           title: "Usuários",
@@ -102,6 +102,25 @@ class GetXHomePresenter extends GetxController implements IHomePresenter {
         .snapshots();
 
     final result = messagesReference.map<List<UserViewModel>>((qShot) {
+      return qShot.docs.map((doc) => doc.data()).toList();
+    });
+    return result;
+  }
+
+  @override
+  Stream<List<AnalysisResearchViewModel>> researches() {
+    final ref = FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('searches')
+        .where('status', isEqualTo: ResearchStatusEnum.analyzing.name)
+        .withConverter<AnalysisResearchViewModel>(
+          fromFirestore: (snapshot, _) =>
+              AnalysisResearchViewModel.fromJson(snapshot.data()!),
+          toFirestore: (user, _) => user.toMap(),
+        )
+        .snapshots();
+    final result = ref.map<List<AnalysisResearchViewModel>>((qShot) {
       return qShot.docs.map((doc) => doc.data()).toList();
     });
     return result;

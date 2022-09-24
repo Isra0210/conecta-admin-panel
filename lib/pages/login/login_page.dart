@@ -91,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                           )
                         : const SizedBox(),
                     const Text(
-                      'Integra +PG',
+                      'Conecta +PG',
                       style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
