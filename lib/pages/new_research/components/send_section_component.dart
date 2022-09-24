@@ -82,6 +82,8 @@ class _SendSectionComponentState extends State<SendSectionComponent> {
                                   children: [
                                     ListTile(
                                       leading: Checkbox(
+                                        fillColor: MaterialStateProperty.all(
+                                            const Color(0XFF1e224c)),
                                         value: presenter
                                                 .usersSelectedToForms.length ==
                                             users.length,
@@ -101,6 +103,8 @@ class _SendSectionComponentState extends State<SendSectionComponent> {
                                     ...users.map(
                                       (user) => ListTile(
                                         leading: Checkbox(
+                                          fillColor: MaterialStateProperty.all(
+                                              const Color(0XFF1e224c)),
                                           value: presenter.usersSelectedToForms
                                               .contains(user),
                                           onChanged: (value) {

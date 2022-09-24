@@ -1,5 +1,4 @@
 import 'package:admconnect/presenters/analysis_research/analysis_research_view_model.dart';
-import 'package:admconnect/presenters/new_research_presenter/research_enum.dart';
 import 'package:admconnect/presenters/users/user_view_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -29,7 +28,7 @@ class GetXHomePresenter extends GetxController implements IHomePresenter {
         ButtonSideBarViewModel(
           title: "Pesquisas em análise",
           icon: Icons.content_paste_search,
-          page: const AnalysisResearch(),
+          page: const AnalysisResearchPage(),
         ),
         ButtonSideBarViewModel(
           title: "Relatórios",
@@ -91,6 +90,18 @@ class GetXHomePresenter extends GetxController implements IHomePresenter {
   set currentSideBarIndex(int value) => _currentSideBarIndex.value = value;
 
   @override
+  String getStatusForms(String statusCode) {
+    switch (statusCode) {
+      case 'analyzing':
+        return "Analisando";
+      case 'approved':
+        return "Aprovado";
+      default:
+        return "Analisando";
+    }
+  }
+
+  @override
   Stream<List<UserViewModel>> users() {
     final messagesReference = FirebaseFirestore.instance
         .collection('users')
@@ -108,19 +119,19 @@ class GetXHomePresenter extends GetxController implements IHomePresenter {
   }
 
   @override
-  Stream<List<AnalysisResearchViewModel>> researches() {
+  Stream<List<ResearchViewModel>> researches(String filterByStatus) {
     final ref = FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('searches')
-        .where('status', isEqualTo: ResearchStatusEnum.analyzing.name)
-        .withConverter<AnalysisResearchViewModel>(
+        .where('status', isEqualTo: filterByStatus)
+        .withConverter<ResearchViewModel>(
           fromFirestore: (snapshot, _) =>
-              AnalysisResearchViewModel.fromJson(snapshot.data()!),
+              ResearchViewModel.fromJson(snapshot.data()!),
           toFirestore: (user, _) => user.toMap(),
         )
         .snapshots();
-    final result = ref.map<List<AnalysisResearchViewModel>>((qShot) {
+    final result = ref.map<List<ResearchViewModel>>((qShot) {
       return qShot.docs.map((doc) => doc.data()).toList();
     });
     return result;

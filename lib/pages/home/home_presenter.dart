@@ -13,6 +13,8 @@ abstract class IHomePresenter {
   int get currentSideBarIndex;
   set currentSideBarIndex(int value);
 
+  String getStatusForms(String statusCode);
+
   Stream<List<UserViewModel>> users();
-  Stream<List<AnalysisResearchViewModel>> researches();
+  Stream<List<ResearchViewModel>> researches(String filterByStatus);
 }

@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
-class AnalysisResearchViewModel extends Equatable {
-  const AnalysisResearchViewModel({
+class ResearchViewModel extends Equatable {
+  const ResearchViewModel({
     required this.createdAt,
     required this.createdBy,
     required this.isActive,
@@ -24,8 +24,8 @@ class AnalysisResearchViewModel extends Equatable {
   List<Object> get props =>
       [createdAt, createdBy, isActive, status, questions, answers, users];
 
-  factory AnalysisResearchViewModel.fromJson(Map<String, dynamic> json) {
-    return AnalysisResearchViewModel(
+  factory ResearchViewModel.fromJson(Map<String, dynamic> json) {
+    return ResearchViewModel(
       createdAt: json['createdAt'],
       createdBy: json['createdBy'],
       isActive: json['isActive'],
