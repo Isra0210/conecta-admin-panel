@@ -2,6 +2,7 @@ import 'package:admconnect/admin-system/pages/login/components/button_component.
 import 'package:admconnect/admin-system/pages/login/components/login_as_component.dart';
 import 'package:admconnect/admin-system/pages/login/login_presenter.dart';
 import 'package:admconnect/admin-system/pages/new_research/utils/get_snack_bar.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -41,11 +42,18 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final ILoginPresenter presenter = Get.find<ILoginPresenter>();
+
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: const Color(0XFF1e224c),
       body: Center(
         child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 60),
+          padding: const EdgeInsets.symmetric(
+            vertical: kIsWeb ? 40 : 30,
+            horizontal: kIsWeb ? 60 : 20,
+          ),
           decoration: BoxDecoration(
             color: Colors.white,
             boxShadow: const [
@@ -65,8 +73,8 @@ class _LoginPageState extends State<LoginPage> {
             borderRadius: BorderRadius.circular(15),
           ),
           margin: const EdgeInsets.symmetric(vertical: 30),
-          width: MediaQuery.of(context).size.width * 0.46,
-          height: MediaQuery.of(context).size.width * 0.8,
+          width: kIsWeb ? width * 0.46 : width * 0.9,
+          height: kIsWeb ? height * 0.9 : height * 0.8,
           child: Obx(() {
             return Column(
               children: [

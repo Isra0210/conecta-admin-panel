@@ -1,12 +1,16 @@
 import 'package:admconnect/admin-system/mixins/loading_mixin.dart';
+import 'package:admconnect/admin-system/presenters/users/user_view_model.dart';
+import 'package:admconnect/utils/verify_user_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
-import '../../pages/home/home_page.dart';
+import '../../pages/home/adm_home_page.dart';
 import '../../pages/login/login_presenter.dart';
 
-class GetXLoginPresenter extends GetxController with LoadingMixin implements ILoginPresenter {
+class GetXLoginPresenter extends GetxController
+    with LoadingMixin
+    implements ILoginPresenter {
   final RxBool _isToRegister = false.obs;
   @override
   bool get isToRegister => _isToRegister.value;
@@ -33,7 +37,7 @@ class GetXLoginPresenter extends GetxController with LoadingMixin implements ILo
         password: password,
       );
       if (userCredential.user != null) {
-        Get.offAllNamed(HomePage.route);
+        Get.offAllNamed(AdmHomePage.route);
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -52,8 +56,7 @@ class GetXLoginPresenter extends GetxController with LoadingMixin implements ILo
     String name,
     String email,
   ) async {
-    final collection =
-        FirebaseFirestore.instance.collection('users').doc(uid);
+    final collection = FirebaseFirestore.instance.collection('users').doc(uid);
 
     await collection.set(
       {
@@ -61,6 +64,7 @@ class GetXLoginPresenter extends GetxController with LoadingMixin implements ILo
         'name': name,
         'email': email,
         'createdAt': FieldValue.serverTimestamp(),
+        'isAdmin': false,
       },
       SetOptions(merge: true),
     );
@@ -82,7 +86,7 @@ class GetXLoginPresenter extends GetxController with LoadingMixin implements ILo
       );
       await updateInitialInfoUser(userCredential.user!.uid, name, email);
       await userCredential.user!.updateDisplayName(name);
-      Get.offAllNamed(HomePage.route);
+      Get.offAllNamed(VerifyUserPage.route);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         showSnackBar("Já existe uma conta com esse e-mail");
@@ -99,5 +103,20 @@ class GetXLoginPresenter extends GetxController with LoadingMixin implements ILo
   @override
   void signOut() {
     FirebaseAuth.instance.signOut();
+  }
+
+  @override
+  Future<UserViewModel?> verifyUserProfile() async {
+    final userId = FirebaseAuth.instance.currentUser!.uid;
+    final userDoc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .withConverter<UserViewModel>(
+          fromFirestore: (snapshot, _) =>
+              UserViewModel.fromMap(snapshot.data()!),
+          toFirestore: (user, _) => user.toMap(),
+        ).get();
+    
+    return userDoc.data();
   }
 }

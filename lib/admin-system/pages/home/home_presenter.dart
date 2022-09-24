@@ -17,4 +17,5 @@ abstract class IHomePresenter {
 
   Stream<List<UserViewModel>> users();
   Stream<List<ResearchViewModel>> researches(String filterByStatus);
+  Stream<List<ResearchViewModel>> userResearch(String filterByStatus);
 }

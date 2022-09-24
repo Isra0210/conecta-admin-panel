@@ -1,4 +1,5 @@
 import 'package:admconnect/admin-system/mixins/loading_mixin.dart';
+import 'package:admconnect/admin-system/presenters/users/user_view_model.dart';
 
 abstract class ILoginPresenter implements LoadingMixin {
   bool get isToRegister;
@@ -10,6 +11,8 @@ abstract class ILoginPresenter implements LoadingMixin {
   void signOut();
 
   Future<void> updateInitialInfoUser(String uid, String name, String email);
+
+  Future<UserViewModel?> verifyUserProfile();
 
   Future<void> register({
     required String name,

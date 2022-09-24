@@ -8,7 +8,8 @@ import '../../pages/new_research/new_research_presenter.dart';
 import '../users/user_view_model.dart';
 import 'research_view_model.dart';
 
-class GetXNewResearchPresenter extends GetxController with LoadingMixin
+class GetXNewResearchPresenter extends GetxController
+    with LoadingMixin
     implements INewResearchPresenter {
   final RxList<ResearchViewModel> _filedsToResearchList =
       <ResearchViewModel>[].obs;
@@ -51,7 +52,7 @@ class GetXNewResearchPresenter extends GetxController with LoadingMixin
       ],
       'answers': [],
       'users': [
-        ...usersSelectedToForms.map((user) => user.toMap()),
+        ...usersSelectedToForms.map((user) => user.id),
       ],
     });
 
@@ -62,10 +63,12 @@ class GetXNewResearchPresenter extends GetxController with LoadingMixin
         'createdBy': FirebaseAuth.instance.currentUser!.uid,
         'isActive': true,
         'status': ResearchStatusEnum.analyzing.name,
-        'questions': {},
+        'questions': [
+          ..._filedsToResearchList.map((question) => question.toMap()),
+        ],
         'answers': [],
         'users': [
-          ...usersSelectedToForms.map((user) => user.toMap()),
+          ...usersSelectedToForms.map((user) => user.id),
         ],
       },
     );

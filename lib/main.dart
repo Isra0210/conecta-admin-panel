@@ -1,9 +1,11 @@
 import 'package:admconnect/admin-system/bindings/home/home_binding.dart';
 import 'package:admconnect/admin-system/bindings/login/login_binding.dart';
 import 'package:admconnect/firebase_options.dart';
-import 'package:admconnect/admin-system/pages/home/home_page.dart';
+import 'package:admconnect/admin-system/pages/home/adm_home_page.dart';
 import 'package:admconnect/admin-system/pages/login/login_page.dart';
 import 'package:admconnect/admin-system/pages/report_details/report_details_page.dart';
+import 'package:admconnect/user-system/research/user_research_page.dart';
+import 'package:admconnect/utils/verify_user_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -24,8 +26,8 @@ class MyApp extends StatelessWidget {
         if (user == null) {
           Get.offAllNamed(LoginPage.route);
         } else {
-          if (Get.rawRoute!.settings.name != HomePage.route) {
-            Get.offAllNamed(HomePage.route);
+          if (Get.rawRoute!.settings.name != VerifyUserPage.route) {
+            Get.offAllNamed(VerifyUserPage.route);
           }
         }
       },
@@ -42,14 +44,14 @@ class MyApp extends StatelessWidget {
       initialRoute: LoginPage.route,
       onInit: () {
         handleUser(FirebaseAuth.instance.authStateChanges());
-      },
+      }, 
       onReady: () {
         handleUser(FirebaseAuth.instance.authStateChanges());
       },
       getPages: [
         GetPage(
-          name: HomePage.route,
-          page: () => const HomePage(),
+          name: AdmHomePage.route,
+          page: () => const AdmHomePage(),
           binding: HomeBinding(),
         ),
         GetPage(
@@ -60,6 +62,16 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: ReportDetailsPage.route,
           page: () => const ReportDetailsPage(),
+          binding: HomeBinding(),
+        ),
+        GetPage(
+          name: VerifyUserPage.route,
+          page: () => const VerifyUserPage(),
+          binding: HomeBinding(),
+        ),
+        GetPage(
+          name: UserResearchPage.route,
+          page: () => const UserResearchPage(),
           binding: HomeBinding(),
         ),
       ],

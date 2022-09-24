@@ -1,24 +1,31 @@
+import 'package:admconnect/admin-system/presenters/new_research_presenter/research_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../presenters/analysis_research/analysis_research_view_model.dart';
-import '../home_presenter.dart';
-import 'form_component.dart';
+import '../../../admin-system/pages/home/home_presenter.dart';
+import '../../../admin-system/presenters/analysis_research/analysis_research_view_model.dart';
+import '../components/drawer_component.dart';
+import '../components/user_form_component.dart';
 
-class ResearchComponent extends StatelessWidget {
-  const ResearchComponent({required this.filterByStatus, Key? key})
-      : super(key: key);
+class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
 
-  final String filterByStatus;
+  static const route = '/home';
 
   @override
   Widget build(BuildContext context) {
     final IHomePresenter presenter = Get.find<IHomePresenter>();
+    final String filterByStatus = ResearchStatusEnum.approved.name;
 
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.5,
-      child: StreamBuilder<List<ResearchViewModel>>(
-        stream: presenter.researches(filterByStatus),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0XFF1e224c),
+        centerTitle: true,
+        title: const Text('Formulários'),
+      ),
+      drawer: const DrawerComponent(),
+      body: StreamBuilder<List<ResearchViewModel>>(
+        stream: presenter.userResearch(filterByStatus),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -33,29 +40,24 @@ class ResearchComponent extends StatelessWidget {
             if (searches.isEmpty) {
               return const Center(
                 child: Text(
-                  'Nenhum formulário encontrado!',
+                  'Nenhum formulário disponível!',
                   style: TextStyle(fontSize: 18),
                 ),
               );
             } else {
               return Container(
-                margin: const EdgeInsets.symmetric(
-                  vertical: 20,
-                  horizontal: 30,
-                ),
+                margin: const EdgeInsets.all(12),
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Formulários',
-                        style: TextStyle(fontSize: 18),
-                      ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 20.0),
-                        child: FormComponent(
-                            searches: searches, status: filterByStatus),
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: UserFormComponent(
+                          searches: searches,
+                          status: filterByStatus,
+                        ),
                       )
                     ],
                   ),

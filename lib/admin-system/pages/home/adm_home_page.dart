@@ -4,15 +4,15 @@ import 'package:admconnect/admin-system/pages/login/login_presenter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class HomePage extends StatefulWidget {
+class AdmHomePage extends StatefulWidget {
   static const route = '/home';
-  const HomePage({Key? key}) : super(key: key);
+  const AdmHomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<AdmHomePage> createState() => _AdmHomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _AdmHomePageState extends State<AdmHomePage> {
   final IHomePresenter presenter = Get.find<IHomePresenter>();
   final ILoginPresenter loginPresenter = Get.find<ILoginPresenter>();
   

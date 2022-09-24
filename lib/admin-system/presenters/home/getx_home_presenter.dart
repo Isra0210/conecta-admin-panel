@@ -1,4 +1,5 @@
 import 'package:admconnect/admin-system/presenters/analysis_research/analysis_research_view_model.dart';
+import 'package:admconnect/admin-system/presenters/new_research_presenter/research_enum.dart';
 import 'package:admconnect/admin-system/presenters/users/user_view_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -125,6 +126,24 @@ class GetXHomePresenter extends GetxController implements IHomePresenter {
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('searches')
         .where('status', isEqualTo: filterByStatus)
+        .withConverter<ResearchViewModel>(
+          fromFirestore: (snapshot, _) =>
+              ResearchViewModel.fromJson(snapshot.data()!),
+          toFirestore: (user, _) => user.toMap(),
+        )
+        .snapshots();
+    final result = ref.map<List<ResearchViewModel>>((qShot) {
+      return qShot.docs.map((doc) => doc.data()).toList();
+    });
+    return result;
+  }
+
+  @override
+  Stream<List<ResearchViewModel>> userResearch(String filterByStatus) {
+    final ref = FirebaseFirestore.instance
+        .collection('searches')
+        .where('users', arrayContains: FirebaseAuth.instance.currentUser!.uid)
+        .where('status', isEqualTo: ResearchStatusEnum.approved.name)
         .withConverter<ResearchViewModel>(
           fromFirestore: (snapshot, _) =>
               ResearchViewModel.fromJson(snapshot.data()!),
