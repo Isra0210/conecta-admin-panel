@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
-import '../../pages/home/adm_home_page.dart';
+import '../../pages/home/home_page.dart';
 import '../../pages/login/login_presenter.dart';
 
 class GetXLoginPresenter extends GetxController
@@ -36,7 +36,7 @@ class GetXLoginPresenter extends GetxController
         password: password,
       );
       if (userCredential.user != null) {
-        Get.offAllNamed(AdmHomePage.route);
+        Get.offAllNamed(HomePage.route);
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -85,7 +85,7 @@ class GetXLoginPresenter extends GetxController
       );
       await updateInitialInfoUser(userCredential.user!.uid, name, email);
       await userCredential.user!.updateDisplayName(name);
-      Get.offAllNamed(AdmHomePage.route);
+      Get.offAllNamed(HomePage.route);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         showSnackBar("Já existe uma conta com esse e-mail");

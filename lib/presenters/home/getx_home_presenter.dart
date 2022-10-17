@@ -18,11 +18,6 @@ import 'models/button_side_bar_view_model.dart';
 class GetXHomePresenter extends GetxController implements IHomePresenter {
   @override
   List<ButtonSideBarViewModel> get buttonsSideBarList => [
-        // ButtonSideBarViewModel(
-        //   title: "Home",
-        //   icon: Icons.home,
-        //   page: const UnimplementedPage(pageName: 'Home'),
-        // ),
         ButtonSideBarViewModel(
           title: "Nova pesquisa",
           icon: Icons.add,
@@ -43,41 +38,6 @@ class GetXHomePresenter extends GetxController implements IHomePresenter {
           icon: Icons.group,
           page: const UsersPage(),
         ),
-        // ButtonSideBarViewModel(
-        //   title: "Retenção",
-        //   icon: Icons.supervised_user_circle_rounded,
-        //   page: const UnimplementedPage(
-        //     pageName: 'Retenção',
-        //   ),
-        // ),
-        // ButtonSideBarViewModel(
-        //   title: "Histórico",
-        //   icon: Icons.history_outlined,
-        //   page: const UnimplementedPage(
-        //     pageName: 'Histórico',
-        //   ),
-        // ),
-        // ButtonSideBarViewModel(
-        //   title: "Configurações",
-        //   icon: Icons.settings,
-        //   page: const UnimplementedPage(
-        //     pageName: 'Configurações',
-        //   ),
-        // ),
-        // ButtonSideBarViewModel(
-        //   title: "Perfil",
-        //   icon: Icons.account_circle,
-        //   page: const UnimplementedPage(
-        //     pageName: 'Perfil',
-        //   ),
-        // ),
-        // ButtonSideBarViewModel(
-        //   title: "Sobre",
-        //   icon: Icons.info,
-        //   page: const UnimplementedPage(
-        //     pageName: 'Sobre',
-        //   ),
-        // ),
       ];
 
   final Rx<Widget> _focusedPage = Rx(const NewResearchPage());

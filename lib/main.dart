@@ -1,7 +1,7 @@
 import 'package:admconnect/bindings/home/home_binding.dart';
 import 'package:admconnect/bindings/login/login_binding.dart';
 import 'package:admconnect/firebase_options.dart';
-import 'package:admconnect/pages/home/adm_home_page.dart';
+import 'package:admconnect/pages/home/home_page.dart';
 import 'package:admconnect/pages/login/login_page.dart';
 import 'package:admconnect/pages/report_details/report_details_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,8 +24,8 @@ class MyApp extends StatelessWidget {
         if (user == null) {
           Get.offAllNamed(LoginPage.route);
         } else {
-          if (Get.rawRoute!.settings.name != AdmHomePage.route) {
-            Get.offAllNamed(AdmHomePage.route);
+          if (Get.rawRoute!.settings.name != HomePage.route) {
+            Get.offAllNamed(HomePage.route);
           }
         }
       },
@@ -48,8 +48,8 @@ class MyApp extends StatelessWidget {
       },
       getPages: [
         GetPage(
-          name: AdmHomePage.route,
-          page: () => const AdmHomePage(),
+          name: HomePage.route,
+          page: () => const HomePage(),
           binding: HomeBinding(),
         ),
         GetPage(
